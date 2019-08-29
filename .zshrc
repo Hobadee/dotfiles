@@ -442,4 +442,11 @@ zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 # Addendum
 # --------------------------------------------------
 
+# M-f/M-b and other commands should stop on dirs and other deliminators
+# Tell ZSH that they *aren't* parts of words by *removing* them.
+# Default:
+# WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
+WORDCHARS='*?[]~=&;!#$%^(){}<>'
+
+# If iTerm2 integration exists, enable it.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
