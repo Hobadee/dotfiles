@@ -43,7 +43,8 @@ stowit() {
     # --dotfiles
     #    Change any files prepended with "dot-" to actual dotfiles, removing the "dot-" prefix
     DIRECTORY=$(cd `dirname $0` && pwd)
-    stow -v -R -t ${usr} -d $DIRECTORY/${base} --dotfiles --ignore "\.DS_Store|\.gitkeep|README.*" ${app}
+#    stow -v -R -t ${usr} -d $DIRECTORY/${base} --dotfiles --ignore "\.DS_Store|\.gitkeep|README.*" ${app}
+    stow -v -R -t ${usr} -d $DIRECTORY/${base} --ignore "\.DS_Store|\.gitkeep|README.*" ${app}
 }
 
 commonOS="Common"
