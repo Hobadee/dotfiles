@@ -3,6 +3,13 @@
 # Adapted from:
 # https://dev.to/writingcode/how-i-manage-my-dotfiles-using-gnu-stow-4l59
 
+# Check and run initial setup
+( __setup/setup.sh )
+RTN=$?
+if [[ $RTN != 0 ]]; then
+    exit $RTN
+fi
+
 # make sure we have pulled in and updated any submodules
 git submodule init
 git submodule update
