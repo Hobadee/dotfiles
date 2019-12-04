@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Lists all files in a directory structure according to reverse size
+
+DIR=$1
+
+# We use `gsort` because it's the brew version which supports the -h flag
+SORT=gsort
+
+du -hc $DIR 2>/dev/null | $SORT -hr | less

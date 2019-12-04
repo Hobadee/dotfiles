@@ -1,0 +1,4 @@
+ls -l
+echo ""
+echo "I think you meant \`ls\` dummy!"
+echo ""

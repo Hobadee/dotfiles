@@ -1,0 +1,5 @@
+#!/bin/bash
+reset;
+clear;
+printf '\e[3J';
+source ~/.bash_profile;

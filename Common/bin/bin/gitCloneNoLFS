@@ -1,0 +1,2 @@
+GIT_LFS_SKIP_SMUDGE=1
+git clone $1

@@ -1,0 +1,2 @@
+#!/bin/sh
+xkcdpass -d "" -n 4 -C capitalize

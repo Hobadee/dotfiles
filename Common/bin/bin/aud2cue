@@ -1,0 +1,2 @@
+#!/bin/sh
+ffmpeg -i $i -ar 8000 -ac 1 -acodec pcm_mulaw $2.wav

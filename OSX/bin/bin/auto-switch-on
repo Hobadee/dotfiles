@@ -1,0 +1,3 @@
+# Enable auto-switching between desktops when an app is selected.
+defaults write com.apple.dock workspaces-auto-swoosh -bool YES
+killall Dock

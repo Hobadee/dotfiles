@@ -1,0 +1,2 @@
+#!/bin/sh
+ffmpeg -i $1 -ar 8000 -ac 1 -acodec pcm_mulaw MOH_$1.au

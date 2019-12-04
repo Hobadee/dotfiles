@@ -1,0 +1,5 @@
+#!/bin/bash
+
+SSH=/usr/local/Cellar/openssh/current/bin/ssh
+
+$SSH -1 $@

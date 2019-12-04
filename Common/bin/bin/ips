@@ -1,0 +1,4 @@
+#!/bin/bash
+
+# Print out all interfaces and their IPs
+ifconfig | grep -E "(inet|^[a-zA-Z])"

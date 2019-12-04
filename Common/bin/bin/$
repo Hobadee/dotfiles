@@ -1,0 +1,13 @@
+#!/bin/zsh
+
+# Stolen from:
+# https://dev.to/writingcode/how-i-manage-my-dotfiles-using-gnu-stow-4l59
+
+# Ever pasted "$ somecommand" into the terminal and gotten this error?
+# -bash: $: command not found
+
+# Begone, silly errors! Lazy copy + paste forever!! ETCETERA!!!!
+
+echo 'Quit pasting in commands from the internet, you lazy bum!'
+echo '---------------------------------------------------------'
+"$@"
