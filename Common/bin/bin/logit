@@ -19,8 +19,9 @@ TIMESTAMP=$(date "+%Y-%m-%dT%H%M%S")
 
 
 if [[ ! $LOGNAME ]]; then
-   echo 'WARNING: No name specified!  No logging will occur!'
-   exit 1;
+   LOGFILE=$LOGDIR/$TIMESTAMP.log
+else
+   LOGFILE=$LOGDIR/$LOGNAME.$TIMESTAMP.log
 fi
 
 # Check if our log directory exists, and create if not
@@ -29,4 +30,4 @@ if [[ ! -d $LOGDIR ]]; then
 fi
 
 # We just go ahead and pass things along to `tee` here
-tee $LOGDIR/$LOGNAME.$TIMESTAMP.log <&0
+tee $LOGFILE <&0
