@@ -29,14 +29,27 @@ esac
 
 
 # Some additions to PATH
+# Add personal binaries if they exist
 if [[ -d ~/bin ]]; then
 	export PATH="$PATH:$HOME/bin"					# Add ~/bin to PATH
 fi
+## Add composer binaries if they exist
 if [[ -d ~/.composer/vendor/bin ]]; then
     export PATH="$PATH:$HOME/.composer/vendor/bin"	# Add composer binaries to path
 fi
+## Add MetaSploit binaries if they exist
 if [[ -d /opt/metasploit-framework/bin ]]; then
     export PATH="$PATH:/opt/metasploit-framework/bin"
+fi
+## Add Ruby Gems if they exist.
+### Note this is ruby-version specific.  Perhaps in the future we can
+### check ruby version and auto-add?
+if [[ -d ~/.gem/ruby/2.6.0/bin ]]; then
+    export PATH=$PATH:$HOME/.gem/ruby/2.6.0/bin
+fi
+## Prefer BREW version of ruby over OSX
+if [[ -d /usr/local/opt/ruby/bin ]]; then
+    export PATH=/usr/local/opt/ruby/bin:$PATH
 fi
 
 
