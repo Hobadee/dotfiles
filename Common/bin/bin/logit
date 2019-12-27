@@ -1,0 +1,32 @@
+#/usr/bin/env bash
+
+#
+# User Configuration:
+#
+LOGDIR=~/log
+
+
+#
+# Passed Variables
+#
+LOGNAME=$1
+
+
+#
+# Internal Variables
+#
+TIMESTAMP=$(date "+%Y-%m-%dT%H%M%S")
+
+
+if [[ ! $LOGNAME ]]; then
+   echo 'WARNING: No name specified!  No logging will occur!'
+   exit 1;
+fi
+
+# Check if our log directory exists, and create if not
+if [[ ! -d $LOGDIR ]]; then
+   echo mkdir -p $LOGDIR
+fi
+
+# We just go ahead and pass things along to `tee` here
+tee $LOGDIR/$LOGNAME.$TIMESTAMP.log <&0
