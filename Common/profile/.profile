@@ -3,28 +3,28 @@
 
 # Test and set the OS type
 case $OSTYPE in
-	linux-gnu)
-		OS_LINUX=1
-		;;
-    cygwin)
-		# POSIX compatibility layer and Linux environment emulation for Windows
-		OS_CYGWIN=1
-		;;
-    msys)
-		# Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
-		OS_WIN=1
-		;;
-    darwin*)
-		# Mac OSX
-		OS_OSX=1
-		;;
-    freebsd*)
-		# Free BSD?
-		OS_BSD=1
-		;;
-    *)
-		OS_UNKNOWN=1
-		;;
+  linux-gnu)
+    OS_LINUX=1
+    ;;
+  cygwin)
+    # POSIX compatibility layer and Linux environment emulation for Windows
+    OS_CYGWIN=1
+    ;;
+  msys)
+    # Lightweight shell and GNU utilities compiled for Windows (part of MinGW)
+    OS_WIN=1
+    ;;
+  darwin*)
+    # Mac OSX
+    OS_OSX=1
+    ;;
+  freebsd*)
+    # Free BSD?
+    OS_BSD=1
+    ;;
+  *)
+    OS_UNKNOWN=1
+    ;;
 esac
 
 
