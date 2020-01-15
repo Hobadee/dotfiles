@@ -134,7 +134,7 @@ if zplug check "plugins/ssh-agent"; then
 fi
 
 # Only load the histdb plugin config if SQLITE3 exists!
-if [[ $(zplug check "larkery/zsh-histdb") && -x $(command -v sqlite3) ]]; then
+if [[ $(zplug check "larkery/zsh-histdb") == 0 && -x $(command -v sqlite3) ]]; then
     if [ ! -f "$HOME/.histdb/zsh-history.db" ]; then
         echo "Import your old zsh history with github.com/drewis/go-histdbimport"
     fi
