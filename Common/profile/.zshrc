@@ -33,7 +33,8 @@ HIST_STAMPS="yyyy-mm-dd"
 # --------------------------------------------------
 # Load Themes
 # --------------------------------------------------
-zplug "Powerlevel9k/powerlevel9k", use:powerlevel9k.zsh-theme, from:github, at:next, as:theme
+#zplug "Powerlevel9k/powerlevel9k", use:powerlevel9k.zsh-theme, from:github, at:next, as:theme
+zplug "romkatv/powerlevel10k", as:theme, depth:1
 
 
 # --------------------------------------------------
@@ -168,227 +169,15 @@ if zplug check "b4b4r07/enhancd"; then
     ENHANCD_COMMAND="c"
 fi
 
-if zplug check "Powerlevel9k/powerlevel9k"; then
+# --------------------------------------------------
+# Load Theme
+# --------------------------------------------------
 
-    if [[ $OSTYPE == darwin* ]]; then
-        zsh_wifi_signal(){
-            local output=$(/System/Library/PrivateFrameworks/Apple80211.framework/Versions/A/Resources/airport -I)
-            local airport=$(echo $output | grep 'AirPort' | awk -F': ' '{print $2}')
-
-            if [ "$airport" = "Off" ]; then
-                    local color='%F{black}'
-                    echo -n "%{$color%}Wifi Off"
-            else
-                    local ssid=$(echo $output | grep ' SSID' | awk -F': ' '{print $2}')
-                    local speed=$(echo $output | grep 'lastTxRate' | awk -F': ' '{print $2}')
-                    local color='%F{green}'
-
-                    [[ $speed -gt 100 ]] && color='%F{green}'
-                    [[ $speed -lt 50 ]] && color='%F{red}'
-
-                    echo -n "%{$color%}$speed Mbps \uf1eb%{%f%}" # removed char not in my PowerLine font
-            fi
-        }
-    elif [[ -x $(command -v nmcli) ]]; then
-        zsh_wifi_signal(){
-            local signal=$(nmcli device wifi | grep yes | awk '{print $8}')
-            local color='%F{yellow}'
-            [[ $signal -gt 75 ]] && color='%F{green}'
-            [[ $signal -lt 50 ]] && color='%F{red}'
-            echo -n "%{$color%}\uf230  $signal%{%f%}" # \uf230 is 
-        }
-    else
-        zsh_wifi_signal(){
-            # No WiFi or no way to find WiFi signal.  Null function.
-        }
-    fi
-
-    #DEFAULT_USER=$USER
-
-    # Easily switch primary foreground/background colors
-    #DEFAULT_FOREGROUND=038 DEFAULT_BACKGROUND=024 PROMPT_COLOR=038
-    #DEFAULT_FOREGROUND=006 DEFAULT_BACKGROUND=235 PROMPT_COLOR=173
-    #DEFAULT_FOREGROUND=198 DEFAULT_BACKGROUND=090 PROMPT_COLOR=173
-    #DEFAULT_FOREGROUND=235 DEFAULT_BACKGROUND=159 PROMPT_COLOR=173
-    #DEFAULT_FOREGROUND=123 DEFAULT_BACKGROUND=059 PROMPT_COLOR=183
-    #DEFAULT_FOREGROUND=159 DEFAULT_BACKGROUND=238 PROMPT_COLOR=173
-    DEFAULT_FOREGROUND=159 DEFAULT_BACKGROUND=239 PROMPT_COLOR=172
-    #DEFAULT_COLOR=$DEFAULT_FOREGROUND
-    DEFAULT_COLOR="clear"
-
-    P9K_MODE="nerdfont-complete"
-    P9K_STATUS_VERBOSE=false
-    #P9K_DIR_SHORTEN_LENGTH=1
-    #P9K_SHORTEN_STRATEGY="truncate_right"
-
-    P9K_DIR_OMIT_FIRST_CHARACTER=false
-
-    P9K_CONTEXT_ALWAYS_SHOW=true
-    P9K_CONTEXT_ALWAYS_SHOW_USER=false
-
-    #P9K_CONTEXT_TEMPLATE="\uF109 %m"
-
-    #P9K_LEFT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 2 ))}|%f"
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 2 ))}|%f"
-
-    #P9K_LEFT_SUBSEGMENT_SEPARATOR="%F{$DEFAULT_BACKGROUND}\ue0b0%f"
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$DEFAULT_BACKGROUND}\ue0b2%f"
-    P9K_LEFT_SUBSEGMENT_SEPARATOR_ICON="%F{232}\uE0BD%f"
-    P9K_RIGHT_SUBSEGMENT_SEPARATOR_ICON="%F{232}\uE0BD%f"
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{000}%f"
-    #P9K_LEFT_SUBSEGMENT_SEPARATOR="%F{000}／%f" # 
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{000}／%f" #
-    #P9K_LEFT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 3 ))}／%f"
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$(( $DEFAULT_BACKGROUND - 3 ))}／%f"
-    #P9K_LEFT_SUBSEGMENT_SEPARATOR="%F{$DEFAULT_FOREGROUND}\uE0B0%f"
-    #P9K_RIGHT_SUBSEGMENT_SEPARATOR="%F{$DEFAULT_FOREGROUND}\uE0B3%f"
-
-    #P9K_LEFT_SEGMENT_SEPARATOR="\uE0B4"
-    #P9K_RIGHT_SEGMENT_SEPARATOR="\uE0B6"
-    P9K_LEFT_SEGMENT_SEPARATOR_ICON='▓▒░'
-    P9K_RIGHT_SEGMENT_SEPARATOR_ICON='░▒▓'
-    #P9K_LEFT_SEGMENT_SEPARATOR="\uE0BC\u200A"
-    #P9K_RIGHT_SEGMENT_SEPARATOR="\u200A\uE0BA"
-    #P9K_LEFT_SEGMENT_SEPARATOR="\uE0BC"
-    #P9K_RIGHT_SEGMENT_SEPARATOR="\uE0BA"
-    #P9K_LEFT_SEGMENT_SEPARATOR="%F{$DEFAULT_BACKGROUND}\uE0BC%f"
-    #P9K_RIGHT_SEGMENT_SEPARATOR="%F{$DEFAULT_BACKGROUND}\uE0BA%f"
-
-    P9K_PROMPT_ON_NEWLINE=true
-    P9K_RPROMPT_ON_NEWLINE=false
-
-    P9K_STATUS_VERBOSE=true
-    P9K_STATUS_CROSS=true
-    P9K_PROMPT_ADD_NEWLINE=true
-
-    P9K_MULTILINE_FIRST_PROMPT_PREFIX_ICON="%F{$PROMPT_COLOR}%f"
-    P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON="%F{$PROMPT_COLOR}➜ %f"
-    #P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON="%F{$PROMPT_COLOR}⇢ ➜  %f"
-    #P9K_MULTILINE_LAST_PROMPT_PREFIX_ICON="%F{$PROMPT_COLOR} ┄⇢ %f"
-
-    P9K_LEFT_PROMPT_ELEMENTS=(os_icon context dir_writable dir vcs root_indicator)
-    P9K_RIGHT_PROMPT_ELEMENTS=(status background_jobs command_execution_time history time custom_wifi_signal ram load_joined battery)
-
-    P9K_MODE='nerdfont-complete'
-
-    P9K_VCS_GIT_GITHUB_ICON=""
-    P9K_VCS_GIT_BITBUCKET_ICON=""
-    P9K_VCS_GIT_GITLAB_ICON=""
-    P9K_VCS_GIT_ICON=""
-
-    P9K_HISTORY_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_HISTORY_FOREGROUND="cyan1"
-
-    P9K_BATTERY_LEVEL_BACKGROUND=($DEFAULT_BACKGROUND)
-
-    P9K_VCS_CLEAN_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_VCS_CLEAN_FOREGROUND="010"
-
-    P9K_VCS_MODIFIED_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_VCS_MODIFIED_FOREGROUND="011"
-
-    P9K_VCS_UNTRACKED_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_VCS_UNTRACKED_FOREGROUND="012"
-    P9K_VCS_UNTRACKED_FOREGROUND="011"
-
-    P9K_VCS_SHORTEN_STRATEGY="truncate_middle"
-
-    P9K_RAM_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_RAM_FOREGROUND="white"
-
-    P9K_LOAD_CRITICAL_BACKGROUND="yellow"
-    P9K_LOAD_WARNING_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_LOAD_NORMAL_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_LOAD_CRITICAL_FOREGROUND="red"
-    P9K_LOAD_WARNING_FOREGROUND="yellow"
-    P9K_LOAD_NORMAL_FOREGROUND="white"
-    P9K_LOAD_CRITICAL_VISUAL_IDENTIFIER_COLOR="red"
-    P9K_LOAD_WARNING_VISUAL_IDENTIFIER_COLOR="yellow"
-    P9K_LOAD_NORMAL_VISUAL_IDENTIFIER_COLOR="green"
-
-    P9K_DIR_HOME_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_DIR_HOME_FOREGROUND="158"
-    P9K_DIR_HOME_SUBFOLDER_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_DIR_HOME_SUBFOLDER_FOREGROUND="158"
-    P9K_DIR_WRITABLE_FORBIDDEN_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_DIR_WRITABLE_FORBIDDEN_FOREGROUND="red"
-    P9K_DIR_DEFAULT_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_DIR_DEFAULT_FOREGROUND="158"
-    P9K_DIR_ETC_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_DIR_ETC_FOREGROUND="158"
-    P9K_DIR_NOT_WRITABLE_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_DIR_NOT_WRITABLE_FOREGROUND="158"
-
-    P9K_ROOT_INDICATOR_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_ROOT_INDICATOR_FOREGROUND="red"
-
-    P9K_STATUS_OK_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_STATUS_OK_FOREGROUND="green"
-    P9K_STATUS_ERROR_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_STATUS_ERROR_FOREGROUND="red"
-
-    #P9K_TIME_FORMAT="%D{%H:%M:%S \uf017}" #  Jun 15  09:32
-    P9K_TIME_ICON="\uF017" # 
-    #P9K_TIME_BACKGROUND="$(( $DEFAULT_BACKGROUND - 2 ))"
-    P9K_TIME_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_TIME_FOREGROUND="183"
-
-    P9K_COMMAND_EXECUTION_TIME_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_COMMAND_EXECUTION_TIME_FOREGROUND="183"
-    P9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
-    P9K_COMMAND_EXECUTION_TIME_PRECISION=1
-
-    P9K_BACKGROUND_JOBS_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_BACKGROUND_JOBS_FOREGROUND="123"
-
-    P9K_USER_DEFAULT_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_USER_DEFAULT_FOREGROUND="cyan"
-    P9K_USER_SUDO_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_USER_SUDO_FOREGROUND="magenta"
-    P9K_USER_ROOT_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_USER_ROOT_FOREGROUND="red"
-    P9K_USER_DEFAULT_ICON="\uF415" # 
-    P9K_USER_ROOT_ICON=$'\uFF03' # ＃
-
-    P9K_CONTEXT_TEMPLATE="\uF109 %m"
-    #P9K_CONTEXT_TEMPLATE="\uF109 %m"
-    P9K_CONTEXT_DEFAULT_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_CONTEXT_DEFAULT_FOREGROUND="$DEFAULT_FOREGROUND"
-    P9K_CONTEXT_DEFAULT_FOREGROUND="123"
-    P9K_CONTEXT_SUDO_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_CONTEXT_SUDO_FOREGROUND="$DEFAULT_FOREGROUND"
-    P9K_CONTEXT_SUDO_FOREGROUND="123"
-    P9K_CONTEXT_REMOTE_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_CONTEXT_REMOTE_FOREGROUND="$DEFAULT_FOREGROUND"
-    P9K_CONTEXT_REMOTE_FOREGROUND="123"
-    P9K_CONTEXT_REMOTE_SUDO_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_CONTEXT_REMOTE_SUDO_FOREGROUND="$DEFAULT_FOREGROUND"
-    P9K_CONTEXT_REMOTE_SUDO_FOREGROUND="123"
-    P9K_CONTEXT_ROOT_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_CONTEXT_ROOT_FOREGROUND="$DEFAULT_FOREGROUND"
-    P9K_CONTEXT_ROOT_FOREGROUND="123"
-
-    P9K_HOST_LOCAL_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_HOST_LOCAL_FOREGROUND="cyan"
-    P9K_HOST_REMOTE_BACKGROUND="$DEFAULT_BACKGROUND"
-    #P9K_HOST_REMOTE_FOREGROUND="magenta"
-    P9K_HOST_LOCAL_ICON="\uF109 " # 
-    P9K_HOST_REMOTE_ICON="\uF489 "  # 
-
-    P9K_SSH_ICON="\uF489 "  # 
-    #P9K_SSH_BACKGROUND="$(( $DEFAULT_BACKGROUND - 2 ))"
-    P9K_SSH_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_SSH_FOREGROUND="212"
-    #P9K_OS_ICON_BACKGROUND="$(( $DEFAULT_BACKGROUND - 2 ))"
-    P9K_OS_ICON_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_OS_ICON_FOREGROUND="212"
-    #P9K_SHOW_CHANGESET=true
-
-    P9K_CUSTOM_WIFI_SIGNAL="zsh_wifi_signal"
-    P9K_CUSTOM_WIFI_SIGNAL_BACKGROUND="$DEFAULT_BACKGROUND"
-    P9K_CUSTOM_WIFI_SIGNAL_FOREGROUND="cyan1"
+if zplug check "romkatv/powerlevel10k"; then
+    [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+elif zplug check "Powerlevel9k/powerlevel9k"; then
+    [[ -f ~/.p9k.zsh ]] && source ~/.p9k.zsh
 fi
-
 
 # --------------------------------------------------
 # Load Plugins
