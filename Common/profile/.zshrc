@@ -36,6 +36,12 @@ HIST_STAMPS="yyyy-mm-dd"
 #zplug "Powerlevel9k/powerlevel9k", use:powerlevel9k.zsh-theme, from:github, at:next, as:theme
 zplug "romkatv/powerlevel10k", as:theme, depth:1
 
+if zplug check "romkatv/powerlevel10k"; then
+    [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
+elif zplug check "Powerlevel9k/powerlevel9k"; then
+    [[ -f ~/.p9k.zsh ]] && source ~/.p9k.zsh
+fi
+
 
 # --------------------------------------------------
 # Load Plugins
@@ -173,15 +179,6 @@ if zplug check "b4b4r07/enhancd"; then
     ENHANCD_COMMAND="c"
 fi
 
-# --------------------------------------------------
-# Load Theme
-# --------------------------------------------------
-
-if zplug check "romkatv/powerlevel10k"; then
-    [[ -f ~/.p10k.zsh ]] && source ~/.p10k.zsh
-elif zplug check "Powerlevel9k/powerlevel9k"; then
-    [[ -f ~/.p9k.zsh ]] && source ~/.p9k.zsh
-fi
 
 # --------------------------------------------------
 # Load Plugins
