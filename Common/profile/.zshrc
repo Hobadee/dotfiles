@@ -40,6 +40,9 @@ zplug "romkatv/powerlevel10k", as:theme, depth:1
 # --------------------------------------------------
 # Load Plugins
 # --------------------------------------------------
+
+# -------------------------
+# Misc Plugins
 zplug "chrissicool/zsh-256color"                                            # Add more colors to terminal
 zplug "zdharma/zsh-diff-so-fancy"                                           # Prettify `diff`
 zplug "peco/peco", as:command, from:gh-r, use:"*${(L)$(uname -s)}*amd64*"   # Simplistic interactive filtering tool
@@ -54,7 +57,7 @@ zplug "junegunn/fzf-bin", as:command, from:gh-r, rename-to:fzf, use:"*${(L)$(una
 zplug "junegunn/fzf", use:"shell/*.zsh"
 
 # Better ZHS history
-# We should only do this if we have sqlite installed, otherwise terminal becomes nearly unusable
+# We should only do this if we have sqlite installed, otherwise terminal becomes nearly unusable with errors
 # Check for sqlite
 if [[ -x $(command -v sqlite3) ]]; then
     HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
@@ -63,28 +66,29 @@ if [[ -x $(command -v sqlite3) ]]; then
     add-zsh-hook precmd histdb-update-outcome
 fi
 
+# -------------------------
 # Plugins from Oh-My-ZSH
-zplug "plugins/ansible",        from:oh-my-zsh
-zplug "plugins/aws",            from:oh-my-zsh
-zplug "plugins/docker",         from:oh-my-zsh
-zplug "plugins/extract",        from:oh-my-zsh
-zplug "plugins/git",            from:oh-my-zsh
-zplug "plugins/git-extras",     from:oh-my-zsh
-zplug "plugins/git-flow",       from:oh-my-zsh
-zplug "plugins/gitignore",      from:oh-my-zsh
-zplug "plugins/kubectl",        from:oh-my-zsh
-zplug "plugins/laravel",        from:oh-my-zsh
-zplug "plugins/npm",            from:oh-my-zsh
-zplug "plugins/vscode",         from:oh-my-zsh
-zplug "plugins/encode64",       from:oh-my-zsh
-zplug "plugins/tmux",           from:oh-my-zsh
-zplug "plugins/urltools",       from:oh-my-zsh
-zplug "plugins/ssh-agent",      from:oh-my-zsh
+zplug "plugins/ansible",        from:oh-my-zsh      # Adds several aliases for ansible
+zplug "plugins/aws",            from:oh-my-zsh      # Completion support for awscli
+zplug "plugins/docker",         from:oh-my-zsh      # Completion for docker
+zplug "plugins/extract",        from:oh-my-zsh      # Wrapper to extract any archive
+zplug "plugins/git",            from:oh-my-zsh      # Add many aliases for git
+zplug "plugins/git-extras",     from:oh-my-zsh      # Completion support for some git-extras commands
+zplug "plugins/git-flow",       from:oh-my-zsh      # Completion and aliases for git-flow
+zplug "plugins/gitignore",      from:oh-my-zsh      # Gitignore.io from the command line
+zplug "plugins/kubectl",        from:oh-my-zsh      # Completion and some aliases for kubectl
+zplug "plugins/laravel",        from:oh-my-zsh      # Completion and aliases for laravel
+zplug "plugins/npm",            from:oh-my-zsh      # Completion and aliases for npm
+zplug "plugins/vscode",         from:oh-my-zsh      # Aliases for VS Code
+zplug "plugins/encode64",       from:oh-my-zsh      # Encode/Decode Base64
+zplug "plugins/tmux",           from:oh-my-zsh      # Aliases for tmux
+zplug "plugins/urltools",       from:oh-my-zsh      # urlencode/urldecode
+zplug "plugins/ssh-agent",      from:oh-my-zsh      # Auto-start SSH-Agent
 
 if [[ $OSTYPE = (darwin)* ]]; then
-    zplug "lib/clipboard",      from:oh-my-zsh
-    zplug "plugins/osx",        from:oh-my-zsh
-    zplug "plugins/brew",       from:oh-my-zsh, if:"(( $+commands[brew] ))"
+    zplug "lib/clipboard",      from:oh-my-zsh                                  # OSX Clipboard copy/paste
+    zplug "plugins/osx",        from:oh-my-zsh                                  # OSX commands
+    zplug "plugins/brew",       from:oh-my-zsh, if:"(( $+commands[brew] ))"     # Aliases for brew
 fi
 
 
