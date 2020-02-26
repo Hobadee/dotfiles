@@ -31,7 +31,11 @@ if [[ $RTN != 0 ]]; then
     exit $RTN
 fi
 
-# Do common setup stuff here, if any...
+# Remove pre-existing home dir configs:
+rm ~/.bash_profile ~/.zshrc
+
+# Do common setup stuff here...
+mkdir ~/tmp ~/log
 
 
 # Flag that we have done initial setup
