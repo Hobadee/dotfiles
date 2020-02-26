@@ -11,8 +11,8 @@ if [[ $RTN != 0 ]]; then
 fi
 
 # Tap Homebrew repos
-cat $DIRECTORY/brew.taps | xargs -L 1 brew tap
+cat $DIRECTORY/brew.taps | xargs -L 1 brew tap                  # Pull list with `brew tap`
 
 # Install homebrew apps
-cat $DIRECTORY/brew.packages | xargs brew install
-cat $DIRECTORY/brew.cask.packages | xargs brew cask install
+cat $DIRECTORY/brew.packages | xargs brew install               # Pull list with `brew leaves`
+cat $DIRECTORY/brew.cask.packages | xargs brew cask install     # Pull list with `brew cask list`
