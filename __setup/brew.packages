@@ -20,6 +20,7 @@ dhcpdump
 dhcping
 dmd
 dnsperf
+docker-compose
 dockutil
 dos2unix
 doxygen
@@ -30,6 +31,7 @@ fcgi
 ffmpeg
 findutils
 fio
+foremost
 fortune
 fping
 fpp
@@ -44,6 +46,7 @@ gnu-tar
 gnupg
 go
 gobject-introspection
+gptfdisk
 graphviz
 grep
 gzip
@@ -52,6 +55,7 @@ httpd
 imagemagick
 influxdb
 iozone
+ipmitool
 ispell
 less
 lftp
