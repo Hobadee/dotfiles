@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+DIR=$1
+
+IFS=$'\n'
+
+SONGS=$(find -E $DIR -maxdepth 1 -regex '.+\.(mp3|wav|ogg)' | sort )
+
+# This is OSX specific.
+# TODO: Do OS check and change based on OS.
+PLAYER='afplay'
+ARGS=''
+
+for SONG in $SONGS
+do
+	"$PLAYER" "$SONG";
+done
