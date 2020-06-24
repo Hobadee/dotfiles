@@ -13,5 +13,6 @@ ARGS=''
 
 for SONG in $SONGS
 do
-	"$PLAYER" "$SONG";
+    echo "Now playing: $SONG";
+    "$PLAYER" "$SONG";
 done
