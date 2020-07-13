@@ -3,7 +3,8 @@
 DIRECTORY=$(cd `dirname $0` && pwd)
 
 # Install Homebrew
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+echo "Installing Homebrew";
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
 RTN=$?
 if [[ $RTN != 0 ]]; then
     echo "exiting"
