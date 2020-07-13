@@ -31,11 +31,22 @@ if [[ $RTN != 0 ]]; then
     exit $RTN
 fi
 
+
 # Remove pre-existing home dir configs:
 rm ~/.bash_profile ~/.zshrc
 
 # Do common setup stuff here...
-mkdir ~/tmp ~/log
+mkdir ~/tmp ~/log ~/src
+
+
+# Install Powerline Fonts
+pushd ~/src
+git clone https://github.com/powerline/fonts.git --depth=1
+cd ./fonts
+./install.sh
+cd ..
+rm -rf ./fonts
+popd
 
 
 # Flag that we have done initial setup
