@@ -1,4 +1,5 @@
 aircrack-ng
+ansible
 ant
 arping
 automake
@@ -53,13 +54,14 @@ gzip
 helm
 httpd
 imagemagick
+inetutils
 influxdb
 iozone
 ipmitool
 ispell
+ldns
 less
 lftp
-libiconv
 links
 lua@5.1
 luarocks
@@ -79,13 +81,13 @@ neo4j
 net-snmp
 nmap
 ntfs-3g
-openssh
 p7zip
 php
 php@7.2
 phpunit
 pidgin
 prettyping
+protobuf@3.7
 putty
 pv
 python@2
