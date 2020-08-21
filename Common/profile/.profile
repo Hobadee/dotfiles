@@ -29,6 +29,10 @@ esac
 
 
 # Some additions to PATH
+# Add /usr/local/sbin if it exists
+if [[ -d /usr/local/sbin/ ]]; then
+    export PATH="$PATH:/usr/local/sbin"
+fi
 # Add personal binaries if they exist
 if [[ -d ~/bin ]]; then
 	export PATH="$PATH:$HOME/bin"					# Add ~/bin to PATH
