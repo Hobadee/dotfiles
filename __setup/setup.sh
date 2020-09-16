@@ -35,17 +35,18 @@ fi
 # Remove pre-existing home dir configs:
 rm ~/.bash_profile ~/.zshrc
 
-# Do common setup stuff here...
+# Make some common directories...
 mkdir ~/tmp ~/log ~/src
 
 
-# Install Powerline Fonts
+# Install Nerdfonts
 pushd ~/src
-git clone https://github.com/powerline/fonts.git --depth=1
-cd ./fonts
+REPO=nerd-fonts
+git clone https://github.com/ryanoasis/$REPO.git --depth 1
+pushd ./$REPO
 ./install.sh
-cd ..
-rm -rf ./fonts
+popd
+rm -rf ./$REPO
 popd
 
 
