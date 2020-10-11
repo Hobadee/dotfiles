@@ -3,5 +3,5 @@ My dotfiles
 
 To bootstrap:
 ```
-curl https://raw.githubusercontent.com/Hobadee/dotfiles/master/bootstrap.sh | sh
+curl https://hobadee.kincl.net/dotfiles.sh | sh
 ```
