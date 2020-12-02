@@ -66,7 +66,9 @@ zplug "junegunn/fzf", use:"shell/*.zsh"
 # We should only do this if we have sqlite installed, otherwise terminal becomes nearly unusable with errors
 # Check for sqlite
 if [[ -x $(command -v sqlite3) ]]; then
-    HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
+    if [[ $OS_OSX ]]; then
+       HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
+    fi
     zplug "larkery/zsh-histdb", use:"{sqlite-history,histdb-interactive}.zsh", hook-load:"histdb-update-outcome"
     autoload -Uz add-zsh-hook       # Needed for larkery/zsh-histdb
     add-zsh-hook precmd histdb-update-outcome
