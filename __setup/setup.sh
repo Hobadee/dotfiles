@@ -18,7 +18,7 @@ case $OS in
   'WindowsNT')
       ;;
   'Darwin')
-      ( $DIRECTORY/osx.sh ) ;;
+      ( $DIRECTORY/os.osx.sh ) ;;
   'SunOS')
       ;;
   'AIX')
