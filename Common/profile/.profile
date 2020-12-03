@@ -256,6 +256,13 @@ fi
 
 
 if [[ -x $(command -v fortune) ]]; then
+    FORTUNES="$HOME/lib/fortune/"
+    
+	# If we have personal fortunes, use those instead.
+    if [[ -d $FORTUNES ]]; then
+        fortune () { command fortune $@ $FORTUNES ; }
+    fi
+    
     echo ""
     fortune -s
     echo ""

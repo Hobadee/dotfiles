@@ -36,7 +36,7 @@ fi
 rm ~/.bash_profile ~/.zshrc
 
 # Make some common directories...
-mkdir ~/tmp ~/log ~/src
+mkdir ~/tmp ~/log ~/src ~/lib
 
 
 # Install Nerdfonts
