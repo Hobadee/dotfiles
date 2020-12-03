@@ -27,6 +27,17 @@ case $OSTYPE in
     ;;
 esac
 
+# Check if we are in an SSH session and set a variable if so
+# Stolen from: https://unix.stackexchange.com/questions/9605/how-can-i-detect-if-the-shell-is-controlled-from-ssh
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+# many other tests omitted
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+    tmux) SESSION_TYPE=tmux;;
+  esac
+fi
 
 # Some additions to PATH
 # Add /usr/local/sbin if it exists
