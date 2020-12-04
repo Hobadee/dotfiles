@@ -279,4 +279,4 @@ if [[ -x $(command -v fortune) ]]; then
     echo ""
 fi
 
-gam() { "$HOME/bin/gam/gam" "$@" ; }
+function gam() { "$HOME/bin/gam/gam" "$@" ; }

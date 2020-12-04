@@ -71,7 +71,6 @@ if [[ -x $(command -v sqlite3) ]]; then
     fi
     zplug "larkery/zsh-histdb", use:"{sqlite-history,histdb-interactive}.zsh", hook-load:"histdb-update-outcome"
     autoload -Uz add-zsh-hook       # Needed for larkery/zsh-histdb
-    add-zsh-hook precmd histdb-update-outcome
 fi
 
 # -------------------------
@@ -239,6 +238,9 @@ zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
 # Default:
 # WORDCHARS='*?_-.[]~=/&;!#$%^(){}<>'
 WORDCHARS='*?[]~=&;!#$%^(){}<>'
+
+# The git plugin sets a "gam" alias which interferes which the `gam` application I use for GSuite management
+unalias gam
 
 # If iTerm2 integration exists, enable it.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

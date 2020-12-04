@@ -23,7 +23,6 @@ base=(
 # folders that should, or only need to be installed for a local user
 useronly=(
     bin
-    git
     fortunes
 )
 
@@ -85,22 +84,22 @@ echo "Stowing apps for user: ${whoami}"
 # install apps available to local users and root
 for app in ${base[@]}; do
     if [[ -e "$OS/$app" ]]; then
-	stowit "${HOME}" $OS $app
+        stowit "${HOME}" $OS $app
     fi
     if [[ -e "$commonOS/$app" ]]; then
-	stowit "${HOME}" $commonOS $app
+        stowit "${HOME}" $commonOS $app
     fi
 done
 
 # install only user space folders
 if ! [[ "$(whoami)" = *"root"* ]]; then
     for app in ${useronly[@]}; do
-	if [[ -e "$OS/$app" ]]; then
-            stowit "${HOME}" $OS $app
-	fi
-	if [[ -e "$commonOS/$app" ]]; then
-	    stowit "${HOME}" $commonOS $app
-	fi
+    if [[ -e "$OS/$app" ]]; then
+        stowit "${HOME}" $OS $app
+    fi
+    if [[ -e "$commonOS/$app" ]]; then
+        stowit "${HOME}" $commonOS $app
+    fi
     done
 fi
 
