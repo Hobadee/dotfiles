@@ -69,7 +69,7 @@ fi
 
 
 # Directory coloring
-if [[ $OS_OSX || $OS_BSD ]]; then
+if [[ -n ${OS_OSX} || -n ${OS_BSD} ]]; then
     export CLICOLOR=1
     export LSCOLORS=Gxfxcxdxbxegedabagacad
     #export LSCOLORS=ExFxBxDxCxegedabagacad
