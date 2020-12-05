@@ -65,15 +65,12 @@ zplug "junegunn/fzf", use:"shell/*.zsh"
 # Better ZHS history using sqlite
 # Only load the histdb plugin config if SQLITE3 exists!  (Terminal we become borderline unusable if not!)
 if [[ -x $(command -v sqlite3) ]]; then
-    if [[ $OS_OSX ]]; then
+    if [[ -n ${OS_OSX} ]]; then
        HISTDB_TABULATE_CMD=(sed -e $'s/\x1f/\t/g')
     fi
     zplug "larkery/zsh-histdb", use:"{sqlite-history,histdb-interactive}.zsh"
     autoload -Uz add-zsh-hook       # Needed for larkery/zsh-histdb
 fi
-
-# Use FZF for Histdb history searching
-zplug "m42e/zsh-histdb-fzf", from:github
 
 # -------------------------
 # Plugins from Oh-My-ZSH
@@ -148,6 +145,10 @@ if zplug check "plugins/ssh-agent"; then
 fi
 
 if zplug check "larkery/zsh-histdb"; then
+
+    # Use FZF for Histdb history searching
+    zplug "m42e/zsh-histdb-fzf", from:github
+
     if [ ! -f "$HOME/.histdb/zsh-history.db" ]; then
         echo "Import your old zsh history with github.com/drewis/go-histdbimport"
     fi
