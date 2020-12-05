@@ -236,7 +236,7 @@ httpDebug () { /usr/bin/curl "$@" -o /dev/null -w "dns: %{time_namelookup} conne
 
 
 # Change some OSX stuff, if we are on OSX
-if [[ $OS_OSX ]]; then
+if [[ -n ${OS_OSX} ]]; then
     export COPYFILE_DISABLE=true						# Prevents TAR from adding stupid extra files
     
     alias f='open -a Finder ./'							# Opens current directory in MacOS Finder
