@@ -38,6 +38,7 @@ else
     tmux) SESSION_TYPE=tmux;;
   esac
 fi
+export SESSION_TYPE=$SESSION_TYPE
 
 # Some additions to PATH
 # Add /usr/local/sbin if it exists

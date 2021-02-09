@@ -3,6 +3,21 @@
 # Adapted from:
 # https://dev.to/writingcode/how-i-manage-my-dotfiles-using-gnu-stow-4l59
 
+# Check if we are in an SSH session and set a variable if so
+# Stolen from: https://unix.stackexchange.com/questions/9605/how-can-i-detect-if-the-shell-is-controlled-from-ssh
+# This function is duplicated in .profile.  We should store it in a single common location and source it in.
+# This variable *MUST* be set before we call __setup/setup.sh
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+  SESSION_TYPE=remote/ssh
+# many other tests omitted
+else
+  case $(ps -o comm= -p $PPID) in
+    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
+    tmux) SESSION_TYPE=tmux;;
+  esac
+fi
+export SESSION_TYPE=$SESSION_TYPE
+
 # Check and run initial setup
 ( __setup/setup.sh )
 RTN=$?
@@ -26,18 +41,7 @@ useronly=(
     fortunes
 )
 
-# Check if we are in an SSH session and set a variable if so
-# Stolen from: https://unix.stackexchange.com/questions/9605/how-can-i-detect-if-the-shell-is-controlled-from-ssh
-# This function is duplicated in .profile.  We should store it in a single common location and source it in.
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-  SESSION_TYPE=remote/ssh
-# many other tests omitted
-else
-  case $(ps -o comm= -p $PPID) in
-    sshd|*/sshd) SESSION_TYPE=remote/ssh;;
-    tmux) SESSION_TYPE=tmux;;
-  esac
-fi
+
 
 # run the stow command for the passed in directory ($2) in location $1
 stowit() {
