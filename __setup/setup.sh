@@ -12,7 +12,7 @@ echo "Initial setup hasn't been run yet; running."
 OS="`uname`"
 case $OS in
   'Linux')
-      ;;
+      ( $DIRECTORY/os.linux.sh ) ;;
   'FreeBSD')
       ;;
   'WindowsNT')
