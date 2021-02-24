@@ -1,1 +1,9 @@
-dig +short myip.opendns.com @resolver1.opendns.com
+# Following doesn't appear to work anymore:
+#dig +short myip.opendns.com @resolver1.opendns.com
+
+# Google's version still works and shows both IPv4 and IPv6 addresses:
+IPV4=$(dig -4 TXT +short o-o.myaddr.l.google.com @ns1.google.com)
+IPV6=$(dig -6 TXT +short o-o.myaddr.l.google.com @ns1.google.com)
+
+echo "IPv4: $IPV4"
+echo "IPv6: $IPV6"
