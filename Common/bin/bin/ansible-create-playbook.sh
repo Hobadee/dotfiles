@@ -8,7 +8,7 @@
 
 gitinit(){
     # Start with sensible .gitignore defaults
-    curl "https://www.gitignore.io/api/osx,linux,windows,ansible" > .gitignore
+    curl -L "https://www.gitignore.io/api/osx,linux,windows,ansible" > .gitignore
     git init
 }
 
