@@ -1,5 +1,6 @@
 android-platform-tools
 autopkgr
+cinch
 db-browser-for-sqlite
 disk-inventory-x
 fing
@@ -8,23 +9,20 @@ iterm2
 kvirc
 manageengine-mibbrowser
 metasploit
-minikube
 munki
 mysql-shell
 mysqlworkbench
+--cask neo4j
 openvisualtraceroute
-osxfuse
 powershell
 profilecreator
 robo-3t
+sensiblesidebuttons
 sqlitestudio
 sqlworkbenchj
-sus-inspector
 tunnelblick
 vagrant
-virtualbox
-virtualbox-extension-pack
 visual-studio-code
-wireshark
+--cask wireshark
 xquartz
 zenmap
