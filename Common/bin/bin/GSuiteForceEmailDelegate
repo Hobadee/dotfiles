@@ -1,0 +1,129 @@
+#!/usr/bin/env bash
+
+
+#
+# Remove delegation of a GSuite user and re-add
+#
+
+
+##
+# usage() will be run when this script is run with the -h (help) options or when
+# incorrect arguments are passed.
+#
+# The text in this cuntion should be updated with appropriate information as your
+# program is built.
+#
+# By convention, example usage strings have the following format:
+# programname -x <arg> [-y <arg>] [-z]
+# Where:
+# "-w <arg>" is a required option with a required argument
+# "[-y <arg>]" is an optional argument with a required argument
+# "-z" is an optional argument
+#
+# The way this script template works doesn't support required options with optional arguments
+#
+usage(){
+cat <<EOF
+Usage:
+$0 -u <user to delegate> -d <delegate to give access>
+-h	Show this help text and exit
+-u  User to give delegated inbox
+-d  Delegate to give access to users inbox
+-g  GAM executable to use
+-D  Delete delegate and reset password only.  Useful for stuck delegation.
+EOF
+}
+
+
+# Set initiol option states
+#
+# You should create variables for all program options here and initialize them
+# to a false/null value so you can later check if they have been set or not.
+HELP=false
+USER=false
+DELEGATE=false
+DELETE=false
+GAM=false
+
+
+# The options to allow
+#
+# This is a list of chars to allow as options.  If the char is followed by a colon (":")
+# then that option will require an argument.  Only single-char options are allowed.
+# Long options are not supported by `getopts`
+#
+# The initial colon (":") is required
+OPTIONS=:hu:d:g:D
+
+# Loop through all options and 
+while getopts $OPTIONS OPTION
+do
+    case $OPTION in
+        h)HELP=true
+            ;;
+        u)USER=$OPTARG
+            ;;
+        d)DELEGATE=$OPTARG
+            ;;
+	D)DELETE=TRUE
+	    ;;
+        g)GAM=$OPTARG
+            ;;
+        \?)
+            # An invalid option has been passed
+            # Inform the user, print usage, and quit
+            echo "Invalid option: -$OPTARG" >&2
+            usage
+            exit 1
+            ;;
+	:)
+        # An option has been passed without the required argument
+        # Inform the user, print usage, and quit
+	    echo "Option -$OPTARG requires an argument." >&2
+        usage
+	    exit 1
+	    ;;
+    esac
+done
+
+
+#
+# Check the option variables we set above and process them as needed
+#
+
+if [ $HELP = true ]; then
+    echo "Help"
+    usage
+    exit 0
+fi
+if [[ $USER == false ]]; then
+    echo "Required argument not found: User";
+    echo "Exiting...";
+    exit 1;
+fi
+if [[ $DELEGATE == false ]]; then
+    echo "Required argument not found: Delegate";
+    echo "Exiting...";
+    exit 1;
+fi
+
+if [[ $GAM == false ]]; then
+    GAM=`which gam`
+fi
+
+echo GAM=$GAM
+
+
+#if [[ ! $(hash $GAM &> /dev/null) ]]; then
+#    echo "Dependancy not found: gam";
+#    echo "Exiting...";
+#    exit 1;
+#fi
+
+
+$GAM user $USER delete delegate $DELEGATE;
+$GAM update user $USER password $(pass) changepassword off;
+
+if [[ $DELETE == false ]]; then
+    $GAM user $USER add delegate $DELEGATE
+fi

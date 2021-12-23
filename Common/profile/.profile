@@ -40,6 +40,16 @@ else
 fi
 export SESSION_TYPE=$SESSION_TYPE
 
+# This would in theory start all SSH sessions inside a new or existing session.  (Based on our .tmux.conf)
+#if [[ $SESSION_TYPE = "remote/ssh" ]]; then
+#  if [[ -x $(command -v tmux) ]]; then
+#      # In theory, this should work.  Except it doesn't.  Tmux exits for some reason.
+#      #exec tmux attach
+#      # We can do this instead for the time being until we figure out what's going on
+#      tmux attach
+#  fi
+#fi
+
 # Some additions to PATH
 # Add /usr/local/sbin if it exists
 if [[ -d /usr/local/sbin/ ]]; then
@@ -113,6 +123,58 @@ elif [[ -x $(command -v nano) ]]; then
 else
     # No editor I like... :-/
     EDITOR=
+fi
+
+
+# Allow switching of java versions
+# NOTE: CURRENTLY NOT WORKING FULLY!!!
+JAVA_HOME_BIN='/usr/libexec/java_home'
+if [[ -x $JAVA_HOME_BIN ]]; then
+  jhome () {
+    SET_VERSION=0
+    LIST_VERSION=0
+    while getopts :hv:l OPTION
+    do
+      case $OPTION in
+        h)
+          HELP=1
+          ;;
+        v)SET_VERSION=$OPTARG
+          ;;
+        l)
+          LIST_VERSION=1
+          ;;
+        \?)
+          # Invalid Option
+          ;;
+        :)
+          # Option requires argument
+          ;;
+      esac
+    done
+
+    echo "SV=$SET_VERSION"
+    echo "LV=$LIST_VERSION"
+
+    if [[ $LIST_VERSION != 0 ]]; then
+      echo $($JAVA_HOME_BIN -V)
+      return 0
+    fi
+    if [[ $SET_VERSION != 0 ]]; then
+      export JAVA_HOME=`$JAVA_HOME_BIN $SET_VERSION`
+      echo "JAVA_HOME:" $JAVA_HOME
+      echo "java -version:"
+      java -version
+      return 0
+    fi
+    if [[ $HELP ]]; then
+      echo "-l to list versions"
+      echo "-v to set version"
+      return 0
+    fi
+    echo "Invalid arguments"
+    return 1
+  }
 fi
 
 

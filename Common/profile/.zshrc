@@ -249,3 +249,5 @@ fi
 
 # If iTerm2 integration exists, enable it.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+
+function gam() { "/Users/erick/bin/gam/gam" "$@" ; }

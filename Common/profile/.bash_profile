@@ -167,3 +167,5 @@ extract () {
 #   ---------------------------------------
 
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+
+function gam() { "/Users/erick/bin/gam/gam" "$@" ; }
