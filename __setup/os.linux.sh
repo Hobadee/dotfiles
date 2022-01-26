@@ -2,8 +2,7 @@
 
 
 APTPKGS="emacs-nox stow zsh"
-YUMPKGS="emacs-nox zsh"
-
+YUMPKGS="emacs-nox zsh sqlite3"
 
 
 DIRECTORY=$(cd `dirname $0` && pwd)
