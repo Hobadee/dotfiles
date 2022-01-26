@@ -772,9 +772,11 @@
     p10k segment -f 208 -i '⭐' -t 'hello, %n'
   }
 
+  # Custom segment to display available disk capacity in % of current directory
   function prompt_disk_avail_pct() {
     DISK_AVAIL=$(df -h ./ | awk 'END{print $5}')
-    p10k segment -f 75 -i ' ' -t "  $DISK_AVAIL"
+    # Although $DISK_AVAIL includes a % sign, it renders wonky.  Throw in an explicit % sign and we are good.  ¯\_(ツ)_/¯
+    p10k segment -f 75 -i ' ' -t "  $DISK_AVAIL%"
   }
 
   # User-defined prompt segments can be customized the same way as built-in segments.
