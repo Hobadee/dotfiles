@@ -63,7 +63,7 @@ fi
 # -------------------------
 # Misc Plugins
 zplug "chrissicool/zsh-256color"                                            # Add more colors to terminal
-#zplug "zdharma/zsh-diff-so-fancy"                                           # Prettify `diff`
+zplug "zdharma-continuum/zsh-diff-so-fancy"                                           # Prettify `diff`
 zplug "peco/peco", as:command, from:gh-r, use:"*${(L)$(uname -s)}*amd64*"   # Simplistic interactive filtering tool
 zplug "b4b4r07/enhancd", use:init.sh                                        # Enhanced `cd`
 zplug "arzzen/calc.plugin.zsh"                                              # Simple zsh calculator
@@ -106,7 +106,7 @@ zplug "plugins/ssh-agent",      from:oh-my-zsh      # Auto-start SSH-Agent
 
 if [[ $OSTYPE = (darwin)* ]]; then
     zplug "lib/clipboard",      from:oh-my-zsh                                  # OSX Clipboard copy/paste
-    zplug "plugins/osx",        from:oh-my-zsh                                  # OSX commands
+    zplug "plugins/macos",        from:oh-my-zsh                                  # OSX commands
     zplug "plugins/brew",       from:oh-my-zsh, if:"(( $+commands[brew] ))"     # Aliases for brew
 fi
 
@@ -164,7 +164,8 @@ if zplug check "larkery/zsh-histdb"; then
     zplug "m42e/zsh-histdb-fzf", from:github
 
     if [ ! -f "$HOME/.histdb/zsh-history.db" ]; then
-        echo "Import your old zsh history with github.com/drewis/go-histdbimport"
+        #echo "Import your old zsh history with github.com/drewis/go-histdbimport"
+        touch "$HOME/.histdb/zsh-history.db"
     fi
 
     _zsh_autosuggest_strategy_histdb_top_here() {
