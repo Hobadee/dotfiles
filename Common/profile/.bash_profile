@@ -13,8 +13,14 @@
 #  Wicked Cool Shell Scripts
 #  ---------------------------------------------------------------------------
 
+
 # Load our generic stuff first.  It can be overwritten later.
+if [[ ! $PROFILE ]]; then
 source ~/.profile
+fi
+
+export BASH_PROFILE=true
+
 
 #   -------------------------------
 #   ENVIRONMENT CONFIGURATION

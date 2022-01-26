@@ -1,5 +1,16 @@
 # zshrc loads after zprofile
 
+
+# zprofile doesn't load on an interactive shell
+# On OSX, this isn't an issue, but on Linux, stuff gets missed with a GUI shell
+# This may need to be updated in the future to properly segragate login vs interactive shell stuff
+# For now, we check if the other stuff is loaded and load it manually if not
+if [[ ! $ZPROFILE ]]; then
+    source ~/.zprofile
+fi
+
+export ZSHRC=true
+
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE

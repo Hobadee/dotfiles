@@ -1,6 +1,11 @@
 # Here we will do stuff that we want setup across different shells.
 # This should be loaded first by all shells so it can be overwritten if need be.
 
+
+# We are loading PROFILE - set a variable
+export PROFILE=true
+
+
 # Test and set the OS type
 case $OSTYPE in
   linux-gnu)
