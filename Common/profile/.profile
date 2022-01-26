@@ -32,6 +32,7 @@ case $OSTYPE in
     ;;
 esac
 
+
 # Check if we are in an SSH session and set a variable if so
 # Stolen from: https://unix.stackexchange.com/questions/9605/how-can-i-detect-if-the-shell-is-controlled-from-ssh
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
@@ -44,6 +45,7 @@ else
   esac
 fi
 export SESSION_TYPE=$SESSION_TYPE
+
 
 # Some additions to PATH
 # Add /usr/local/sbin if it exists
@@ -93,7 +95,6 @@ fi
 export BLOCKSIZE=1k
 
 
-
 # color formatting for man pages
 export LESS_TERMCAP_mb=$'\e[1;31m'     # begin bold
 export LESS_TERMCAP_md=$'\e[1;36m'     # begin blink
@@ -107,8 +108,7 @@ export GROFF_NO_SGR=1                  # for konsole and gnome-terminal
 export MANPAGER='less -s -M -R +Gg'
 
 
-
-
+# Set our preferred editor
 if [[ -x $(command -v notepad++) ]]; then
     export EDITOR="notepad++"
 elif [[ -x $(command -v emacs) ]]; then
@@ -121,11 +121,9 @@ else
 fi
 
 
-termcolors(){
-  for i in {0..255}; do
-    print -Pn "%${i}F${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+$'\n'};
-  done ;
-}
+# Print out all possible terminal colors
+# Used to be a function, but had issues on Linux.  Alias doesn't format as well for some reason.
+alias termcolors='for i in {0..255}; do print -Pn "%${i}F${(l:3::0:)i}%f " ${${(M)$((i%8)):#7}:+$'\n'}; done'
 
 
 #   -----------------------------
@@ -136,20 +134,22 @@ alias cp='cp -iv'									# Preferred 'cp' implementation
 alias mv='mv -iv'									# Preferred 'mv' implementation
 alias rm='rm -i'									# Preferred 'rm' implementation
 alias mkdir='mkdir -pv'								# Preferred 'mkdir' implementation
-alias lless='CLICOLOR_FORCE=1 ll -G | less -R'		# lless:	Colorised 'ls' piping to colorized 'less'
+alias lless='CLICOLOR_FORCE=1 ll -G | less -R'		# lless:	Colorised 'ls' piping to colorized 'less'.  OSX Only?
 alias cls='clear;ls'								# cls:		Clear screen and 'ls'
 alias cll='clear;ll'								# cll:		Clear screen and 'll'
 alias path='echo -e ${PATH//:/\\n}'					# path:		Echo all executable Paths
-alias DT='tee ~/Desktop/terminalOut.txt'			# DT:		Pipe content to file on MacOS Desktop
-alias profile='declare -F | sed "/iterm2/d" | sed "s/declare -f //"; alias | sed "s/alias //" | sed "s/=.*//"'
-alias clearSB="printf '\e[3J'"						# clearSB:	Clear the Scrollback history.  iTerm2.  Others?
-alias ext4fuse="ext4fuse -o allow_other"
+alias DT='tee ~/tmp/terminalOut.txt'			# DT:		Pipe content to file in our tmp folder
+alias profile='declare -F | sed "/iterm2/d" | sed "s/declare -f //"; alias | sed "s/alias //" | sed "s/=.*//"' # Display all available commands
+alias clearSB="printf '\e[3J'"						# clearSB:	Clear the Scrollback history.  Tested OK in iTerm2, Yakuake, xTerm.
+alias ext4fuse="ext4fuse -o allow_other"  # OSX specific alias
 mcd(){ mkdir -p "$1" && cd "$1" ; }					# mcd:		Make directory and CD into it.
 edit(){ $EDITOR "$1" ; }								# edit:		Open file for editing using $EDITOR
+
 
 #   lr:  Full Recursive Directory Listing
 #   ------------------------------------------
 alias lr='ls -R | grep ":$" | sed -e '\''s/:$//'\'' -e '\''s/[^-][^\/]*\//--/g'\'' -e '\''s/^/   /'\'' -e '\''s/-/|/'\'' | less'
+
 
 alias qfind="find . -name "                 # qfind:    Quickly search for file
 ff () { /usr/bin/find . -name "$@" ; }      # ff:       Find file under the current directory
@@ -183,6 +183,7 @@ my_ps() { ps "$@" -u "$USER" -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 alias dig='dig +nocookie'
 
 # myip:			Public facing IP Address
+# We may need to update this... it's returning an IPv6 that isn't mine like 80% of the time...
 myip () {
     dig TXT +short o-o.myaddr.l.google.com @ns1.google.com | awk -F'"' '{ print $2}'
 }
@@ -191,13 +192,13 @@ myip () {
 alias netCons='lsof -i'
 
 # lsock:		Display open sockets
-alias lsock='sudo /usr/sbin/lsof -i -P'
+alias lsock='sudo lsof -i -P'
 
 # lsockU:		Display only open UDP sockets
-alias lsockU='sudo /usr/sbin/lsof -nP | grep UDP'
+alias lsockU='sudo lsof -nP | grep UDP'
 
 # lsockT:		Display only open TCP sockets
-alias lsockT='sudo /usr/sbin/lsof -nP | grep TCP'
+alias lsockT='sudo lsof -nP | grep TCP'
 
 # ipInfo:		Get info on connections for interface $1
 ipInfo(){ ipconfig getpacket "$1" ; }
@@ -208,21 +209,26 @@ alias openPorts='sudo lsof -i | grep LISTEN'
 # showBlocked:	All ipfw rules inc/ blocked IPs
 alias showBlocked='sudo ipfw list'
 
+
 #   ii:  display useful host related informaton
 #   -------------------------------------------------------------------
 ii() {
-    echo -e "\nYou are logged on ${RED}$HOST"
-    echo -e "\nAdditionnal information:$NC " ; uname -a
+    RED="\033[1;31m"
+    NC="\033[0m"
+    echo -e "\nYou are logged onto ${RED}$HOST"
+    echo -e "\nAdditional Host information:$NC " ; uname -a
     echo -e "\n${RED}Users logged on:$NC " ; w -h
-    echo -e "\n${RED}Current date :$NC " ; date
-    echo -e "\n${RED}Machine stats :$NC " ; uptime
-    echo -e "\n${RED}Current network location :$NC " ; scselect
-    echo -e "\n${RED}Public facing IP Address :$NC " ;myip
+    echo -e "\n${RED}Current date:$NC " ; date
+    echo -e "\n${RED}Machine stats:$NC " ; uptime
+    echo -e "\n${RED}Current network location:$NC " ; scselect  # Command not found on OpenSUSE LEAP 15.3
+    echo -e "\n${RED}Public facing IP Address:$NC " ; myip
     #echo -e "\n${RED}DNS Configuration:$NC " ; scutil --dns
     echo
 }
 
-chip() { ping -c 1 -t 1 "$@" 2>1 >/dev/null ; }
+
+# Check if an IP is alive or not (1s timeout) and return 0/1
+chip() { ping -c 1 -W 1 "$@" 2>1 >/dev/null ; }
 
 
 #   ---------------------------------------
@@ -285,4 +291,7 @@ if [[ -x $(command -v fortune) ]]; then
     echo ""
 fi
 
+
+if [[ -x "$HOME/bin/gam/gam" ]]; then
 function gam() { "$HOME/bin/gam/gam" "$@" ; }
+fi
