@@ -249,49 +249,49 @@ httpDebug () { /usr/bin/curl "$@" -o /dev/null -w "dns: %{time_namelookup} conne
 
 # Change some OSX stuff, if we are on OSX
 if [[ -n ${OS_OSX} ]]; then
-    export COPYFILE_DISABLE=true						# Prevents TAR from adding stupid extra files
-    
-    alias f='open -a Finder ./'							# Opens current directory in MacOS Finder
-    alias plist='plutil -convert xml1 -o /dev/stdout'	# plist:	Show a plist file in XML format
-    trash(){ command mv "$@" ~/.Trash ; }				# trash:	Moves files to the OSX Trash
-    ql () { qlmanage -p "$*" >& /dev/null; }			# ql:		Opens any file in MacOS Quicklook Preview
-    
-    #   spotlight: Search for a file using MacOS Spotlight's metadata
-    #   -----------------------------------------------------------
-    spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
-    
-    alias flushDNS='dscacheutil -flushcache'            # flushDNS:	Flush out the DNS Cache
-    #alias flushDNS='sudo killall -HUP mDNSResponder'	# flushDNS:	Alternate flush of the DNS Cache
-    
-    #   cleanupDS:  Recursively delete .DS_Store files
-    #   -------------------------------------------------------------------
-    alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
-    
-    #   finderShowHidden:   Show hidden files in Finder
-    #   finderHideHidden:   Hide hidden files in Finder
-    #   -------------------------------------------------------------------
-    alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
-    alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
-    
-    eject () { diskutil eject "$@" ; }					# Eject disk
-    unmount () { diskutil unmountAll "$@" ; }			# Unmounts all volumes of a disk
+  export COPYFILE_DISABLE=true						# Prevents TAR from adding stupid extra files
+
+  alias f='open -a Finder ./'							# Opens current directory in MacOS Finder
+  alias plist='plutil -convert xml1 -o /dev/stdout'	# plist:	Show a plist file in XML format
+  trash(){ command mv "$@" ~/.Trash ; }				# trash:	Moves files to the OSX Trash
+  ql () { qlmanage -p "$*" >& /dev/null; }			# ql:		Opens any file in MacOS Quicklook Preview
+
+  #   spotlight: Search for a file using MacOS Spotlight's metadata
+  #   -----------------------------------------------------------
+  spotlight () { mdfind "kMDItemDisplayName == '$@'wc"; }
+
+  alias flushDNS='dscacheutil -flushcache'            # flushDNS:	Flush out the DNS Cache
+  #alias flushDNS='sudo killall -HUP mDNSResponder'	# flushDNS:	Alternate flush of the DNS Cache
+
+  #   cleanupDS:  Recursively delete .DS_Store files
+  #   -------------------------------------------------------------------
+  alias cleanupDS="find . -type f -name '*.DS_Store' -ls -delete"
+
+  #   finderShowHidden:   Show hidden files in Finder
+  #   finderHideHidden:   Hide hidden files in Finder
+  #   -------------------------------------------------------------------
+  alias finderShowHidden='defaults write com.apple.finder ShowAllFiles TRUE'
+  alias finderHideHidden='defaults write com.apple.finder ShowAllFiles FALSE'
+
+  eject () { diskutil eject "$@" ; }					# Eject disk
+  unmount () { diskutil unmountAll "$@" ; }			# Unmounts all volumes of a disk
 fi
 
 
 if [[ -x $(command -v fortune) ]]; then
-    FORTUNES="$HOME/lib/fortune/"
+  FORTUNES="$HOME/lib/fortune/"
     
 	# If we have personal fortunes, use those instead.
-    if [[ -d "$FORTUNES" ]]; then
-        fortune () { command fortune "$@" "$FORTUNES" ; }
-    fi
+  if [[ -d "$FORTUNES" ]]; then
+    fortune () { command fortune "$@" "$FORTUNES" ; }
+  fi
     
-    echo ""
-    fortune -s
-    echo ""
+  echo ""
+  fortune -s
+  echo ""
 fi
 
 
 if [[ -x "$HOME/bin/gam/gam" ]]; then
-function gam() { "$HOME/bin/gam/gam" "$@" ; }
+  function gam() { "$HOME/bin/gam/gam" "$@" ; }
 fi

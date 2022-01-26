@@ -16,7 +16,7 @@
 
 # Load our generic stuff first.  It can be overwritten later.
 if [[ ! $PROFILE ]]; then
-source ~/.profile
+    source ~/.profile
 fi
 
 export BASH_PROFILE=true
@@ -52,12 +52,14 @@ if [[ -x titleterm ]]; then
 	export PROMPT_COMMAND="titleterm \"\$PWD\""
 fi
 
+
 #   Add color to terminal
 #   ------------------------------------------------------------
 #   Stolen from:
 #   http://natelandau.com/my-mac-osx-bash_profile/
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
+
 
 # Enable BASH completion	
 if [[ -f /usr/local/share/bash-completion/bash_completion ]]; then
@@ -172,4 +174,6 @@ extract () {
 #   Login Scripts
 #   ---------------------------------------
 
+
+# Test if we have iTerm2 integration and run it if so
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

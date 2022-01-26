@@ -1,4 +1,4 @@
-# zshrc loads after zprofile
+# zshrc loads after zprofile on a login shell
 
 
 # zprofile doesn't load on an interactive shell
@@ -11,6 +11,8 @@ fi
 
 export ZSHRC=true
 
+
+# Export some vars to help with history
 export HISTFILE="$HOME/.zsh_history"
 export HISTSIZE=10000
 export SAVEHIST=$HISTSIZE
@@ -61,7 +63,7 @@ fi
 # -------------------------
 # Misc Plugins
 zplug "chrissicool/zsh-256color"                                            # Add more colors to terminal
-zplug "zdharma/zsh-diff-so-fancy"                                           # Prettify `diff`
+#zplug "zdharma/zsh-diff-so-fancy"                                           # Prettify `diff`
 zplug "peco/peco", as:command, from:gh-r, use:"*${(L)$(uname -s)}*amd64*"   # Simplistic interactive filtering tool
 zplug "b4b4r07/enhancd", use:init.sh                                        # Enhanced `cd`
 zplug "arzzen/calc.plugin.zsh"                                              # Simple zsh calculator
@@ -155,6 +157,7 @@ if zplug check "plugins/ssh-agent"; then
     zstyle :omz:plugins:ssh-agent agent-forwarding on
 fi
 
+
 if zplug check "larkery/zsh-histdb"; then
 
     # Use FZF for Histdb history searching
@@ -165,27 +168,31 @@ if zplug check "larkery/zsh-histdb"; then
     fi
 
     _zsh_autosuggest_strategy_histdb_top_here() {
-        local query="select commands.argv from
-                        history left join commands on history.command_id = commands.rowid
+        local query="select commands.argv from history
+                        left join commands on history.command_id = commands.rowid
                         left join places on history.place_id = places.rowid
                         where places.dir LIKE '$(sql_escape $PWD)%'
                         and commands.argv LIKE '$(sql_escape $1)%'
-                        group by commands.argv order by count(*) desc limit 1"
+                        group by commands.argv
+                        order by count(*) desc limit 1"
         suggestion=$(_histdb_query "$query")
     }
 
     ZSH_AUTOSUGGEST_STRATEGY=histdb_top_here
 fi
 
+
 if zplug check "junegunn/fzf-bin"; then
     export FZF_DEFAULT_OPTS="--height 40% --reverse --border --inline-info --color=dark,bg+:235,hl+:10,pointer:5"
 fi
+
 
 if zplug check "zsh-users/zsh-autosuggestions"; then
     #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=10'
     ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=075'
     #ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=162'
 fi
+
 
 if zplug check "b4b4r07/enhancd"; then
     ENHANCD_FILTER="fzf:peco:percol"
@@ -202,6 +209,7 @@ if ! zplug check; then
     if read -q; then
         echo
         zplug install
+        # Re-source after installing so we don't get an unconfigured first use
         source ~/.zshrc
     fi
 fi
