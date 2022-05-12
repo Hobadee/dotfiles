@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+
+# Actual GAM executable:
+GAM=~/bin/gamadv-xtd3/gam
+
+
+CLIENTS=$(ls $GAMCFGDIR)
+
+for DIR in $CLIENTS; do
+    if [[ $DIR == $1 ]]; then
+	export GAMCFGDIR=$GAMCFGDIR/$DIR
+	shift
+	break
+    fi
+done
+
+echo "Using GAM config dir: $GAMCFGDIR" 1>&2
+
+$GAM "$@"

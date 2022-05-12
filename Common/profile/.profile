@@ -56,6 +56,9 @@ fi
 if [[ -d /opt/homebrew/bin ]]; then
     export PATH="$PATH:/opt/homebrew/bin"
 fi
+if [[ -d /opt/homebrew/sbin ]]; then
+    export PATH="$PATH:/opt/homebrew/sbin"
+fi
 # Add personal binaries if they exist
 if [[ -d ~/bin ]]; then
 	export PATH="$PATH:$HOME/bin"					# Add ~/bin to PATH
@@ -77,6 +80,12 @@ fi
 ## Prefer BREW version of ruby over OSX
 if [[ -d /usr/local/opt/ruby/bin ]]; then
     export PATH=/usr/local/opt/ruby/bin:$PATH
+fi
+
+
+# If we are using GAM-ADV-XTD3, then export the config dir
+if [[ -d ~/bin/gamadv-xtd3/ ]]; then
+    export GAMCFGDIR="$HOME/.gam"
 fi
 
 
@@ -184,7 +193,7 @@ my_ps() { ps "$@" -u "$USER" -o pid,%cpu,%mem,start,time,bsdtime,command ; }
 #   ---------------------------
 
 # New versions of dig don't work with MS DNS unless you specify +nocookie
-alias dig='dig +nocookie'
+#alias dig='dig +nocookie'
 
 # myip:			Public facing IP Address
 # We may need to update this... it's returning an IPv6 that isn't mine like 80% of the time...

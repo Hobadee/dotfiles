@@ -1,2 +1,12 @@
-#!/bin/sh
-xkcdpass -d "" -n 4 -C capitalize
+#!/usr/bin/env bash
+
+PASS=$(xkcdpass -C first -n 4 -d "")
+
+# This may have reduced chances of higher numbers
+#NUM=$(($RANDOM % 10))
+
+# This sometimes does negative numbers
+NUM=$(($(dd if=/dev/urandom count=4 bs=1 2>/dev/null | od -t u | awk -F ' ' 'NR==1{print $2}') % 10))
+
+
+echo $PASS$NUM
