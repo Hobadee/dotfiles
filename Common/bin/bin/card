@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+echo "Name: Eric Kincl"
+echo "Email: eric.kincl@pliancy.com"
+echo "Phone: 650-456-5266"
