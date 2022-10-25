@@ -8,8 +8,6 @@ font-hack-nerd-font
 iterm2
 kvirc
 manageengine-mibbrowser
-metasploit
-munki
 mysql-shell
 mysqlworkbench
 --cask neo4j
@@ -26,3 +24,4 @@ visual-studio-code
 --cask wireshark
 xquartz
 zenmap
+fork
