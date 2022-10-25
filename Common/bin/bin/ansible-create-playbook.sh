@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Script to create ansible playbook directories
 # With thanks to https://gist.github.com/skamithi/11200462 for giving me the idea
@@ -47,7 +47,7 @@ do
           ;;
 	p)PLAYBOOK=$OPTARG
 	  ;;
-	r)NEWROLES=($NEWROLES $OPTARG)
+	r)NEWROLES+=($OPTARG)
 	  ;;
 	g)GALAXYROLES=($GALAXYROLES $OPTARG)
           ;;
@@ -98,7 +98,12 @@ if [[ $GIT == true ]]; then
 fi
 
 for i in ${NEWROLES[@]}; do
-    ansible-galaxy init ${i} --init-path=roles
+    if [[ ! -d "roles/$i" ]]; then
+	echo "Creating role: $i"
+	ansible-galaxy init ${i} --init-path=roles
+    else
+	echo "Role already exists: $i"
+    fi
 done
 for i in ${GALAXYROLES[@]}; do
     ansible-galaxy install ${i} -p roles
