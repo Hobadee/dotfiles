@@ -288,6 +288,8 @@ if [[ -n ${OS_OSX} ]]; then
 
   eject () { diskutil eject "$@" ; }					# Eject disk
   unmount () { diskutil unmountAll "$@" ; }			# Unmounts all volumes of a disk
+
+  airport() { /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport "$0" ; }
 fi
 
 
