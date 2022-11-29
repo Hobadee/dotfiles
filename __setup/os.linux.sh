@@ -14,6 +14,7 @@ if [[ -x $(which apt) ]]; then
 elif [[ -x $(which yum) ]]; then
     # We are YUM based
     echo "Using YUM";
+    #sudo yum install $YUMPKGS
 else
     # No APT or YUM.
     echo "No known package manager!";
