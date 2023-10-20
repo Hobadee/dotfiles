@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "Enter your note.  It will NOT be stored.  Type a backtick (\`) to end."
+
+
+read -d \` var
+
+# Clear the var since we don't want to store it in any way.
+var=""
+
+# End with a newline
+echo
