@@ -1,12 +1,180 @@
 #!/usr/bin/env bash
 
-echo "Enter your note.  It will NOT be stored.  Type a backtick (\`) to end."
+#
+# Adapted from https://ceuk.dev/easy-command-line-note-taking
+#
 
 
-read -d \` var
+pick_note() {
+  HEADER=${1}
+  file="$(find "${DIR}" -iname '*.md' -exec basename -s .md {} \; | fzf --header="${HEADER}" --bind 'J:preview-down,K:preview-up' --height 100% --preview "if file -i {}|grep -q binary; then file -b {}; else glow -s dark ${DIR}/{}.md; fi")"
+  echo "${DIR}/${file}.md"
+}
 
-# Clear the var since we don't want to store it in any way.
-var=""
 
-# End with a newline
-echo
+
+##
+# usage() will be run when this script is run with the -h (help) options or when
+# incorrect arguments are passed.
+#
+# The text in this cuntion should be updated with appropriate information as your
+# program is built.
+#
+# By convention, example usage strings have the following format:
+# programname -x <arg> [-y <arg>] [-z]
+# Where:
+# "-w <arg>" is a required option with a required argument
+# "[-y <arg>]" is an optional argument with a required argument
+# "-z" is an optional argument
+#
+# The way this script template works doesn't support required options with optional arguments
+#
+usage(){
+cat <<EOF
+Usage:
+$0
+-h           Show this help text and exit
+-f <file>    Specify note file to operate on.
+-d           Delete note.  MUST specify a file with -f
+-l           List all notes
+-r           Read note
+
+Alternatively, simply specify a note name to edit:
+$0 <file>
+
+All files will have ".md" appended
+EOF
+}
+
+# Config Options
+DIR="${HOME}/.notes"
+
+# Set initiol option states
+#
+# You should create variables for all program options here and initialize them
+# to a false/null value so you can later check if they have been set or not.
+HELP=false
+FILE=false
+DELETE=false
+LIST=false
+READ=false
+
+
+if [[ $# != 0 && ${1} != -* ]]; then
+  FILE="${DIR}/${1}.md"
+  SKIPOPTS=true
+fi
+
+if [[ ${SKIPOPTS} != true ]]; then
+  # The options to allow
+  #
+  # This is a list of chars to allow as options.  If the char is followed by a colon (":")
+  # then that option will require an argument.  Only single-char options are allowed.
+  # Long options are not supported by `getopts`
+  #
+  # The initial colon (":") is required
+  OPTIONS=:hf:dlrn:
+
+  # Loop through all options
+  while getopts $OPTIONS OPTION
+  do
+    case $OPTION in
+      h)HELP=true
+        ;;
+      f)FILE="${DIR}/${OPTARG}.md"
+        ;;
+      d)DELETE=true
+        ;;
+      l)LIST=true
+        ;;
+      r)READ=true
+        ;;
+      \?)
+        # An invalid option has been passed
+        # Inform the user, print usage, and quit
+        echo "Invalid option: -$OPTARG" >&2
+        usage
+        exit 1
+        ;;
+      :)
+        # An option has been passed without the required argument
+        # Inform the user, print usage, and quit
+        echo "Option -$OPTARG requires an argument." >&2
+        usage
+        exit 1
+        ;;
+    esac
+  done
+fi
+
+
+# Check if notes directory exists, and create if it doesn't
+if [[ ! -d ${DIR} ]]; then
+  mkdir -p ${DIR}
+fi
+
+
+# If DELETE is set, but not FILE, fail
+if [[ ${DELETE} == true && ${FILE} == false ]]; then
+  FILE=$(pick_note "Select a note to delete")
+fi
+
+
+# Operate on the Default File
+if [[ ${FILE} == false ]]; then
+  FILE=$(pick_note "Select a note to work with")
+  # If nothing was selected, exit
+  if [[ ${FILE} == "${DIR}/.md" ]]; then
+    exit 1
+  fi
+fi
+
+
+#
+# Check the option variables we set above and process them as needed
+#
+
+
+##
+# READ handler
+if [[ ${READ} == true ]]; then
+  glow ${FILE}
+  exit 0
+fi
+
+
+##
+# LIST handler
+if [[ ${LIST} == true ]]; then
+  rtn=$(pick_note "Here is a list of your notes:")
+  exit 0
+fi
+
+
+##
+# DELETE handler
+if [[ ${DELETE} == true ]]; then
+  if [[ ! -f ${FILE} ]]; then
+    exit 2
+  fi
+  read -p "Are you sure you would like to delete ${FILE}? " -n 1 -r
+  echo ""
+  if [[ $REPLY =~ ^[Yy]$ ]]; then
+    rm -f "${FILE}"
+    exit 0
+  fi
+  exit 1
+fi
+
+
+##
+# HELP handler
+if [[ ${HELP} == true ]]; then
+    echo "Help"
+    usage
+    exit 0
+fi
+
+${EDITOR} ${FILE}
+
+exit 0
