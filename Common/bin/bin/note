@@ -114,7 +114,16 @@ if [[ ! -d ${DIR} ]]; then
 fi
 
 
-# If DELETE is set, but not FILE, fail
+##
+# HELP handler
+if [[ ${HELP} == true ]]; then
+    echo "Help"
+    usage
+    exit 0
+fi
+
+
+# If DELETE is set, but not FILE, pick a file
 if [[ ${DELETE} == true && ${FILE} == false ]]; then
   FILE=$(pick_note "Select a note to delete")
 fi
@@ -166,14 +175,6 @@ if [[ ${DELETE} == true ]]; then
   exit 1
 fi
 
-
-##
-# HELP handler
-if [[ ${HELP} == true ]]; then
-    echo "Help"
-    usage
-    exit 0
-fi
 
 ${EDITOR} ${FILE}
 
