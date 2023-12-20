@@ -50,14 +50,14 @@ export SESSION_TYPE=$SESSION_TYPE
 # Some additions to PATH
 # Add /usr/local/sbin if it exists
 if [[ -d /usr/local/sbin/ ]]; then
-    export PATH="$PATH:/usr/local/sbin"
+    export PATH="/usr/local/sbin:$PATH"
 fi
 # Add Homebrew if it exists
 if [[ -d /opt/homebrew/bin ]]; then
-    export PATH="$PATH:/opt/homebrew/bin"
+    export PATH="/opt/homebrew/bin:$PATH"
 fi
 if [[ -d /opt/homebrew/sbin ]]; then
-    export PATH="$PATH:/opt/homebrew/sbin"
+    export PATH="/opt/homebrew/sbin:$PATH"
 fi
 # Add personal binaries if they exist
 if [[ -d ~/bin ]]; then
